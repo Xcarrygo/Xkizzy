@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitZone Gym Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Index Page Styles */
+        .index-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .hero-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideInUp 1s ease-out 0.6s both;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 30%;
+            right: 20%;
+            animation-delay: 4s;
+        }
+
+        .features-preview {
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Main Application Styles */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem 0;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 0 2rem 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 1rem 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: #fff;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-left-color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .page-header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .page-header h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .content-card p, .content-card ul {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .content-card ul {
+            list-style-position: inside;
+        }
+
+        .content-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.4);
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+        }
+
+        .table th, .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status.active {
+            background: rgba(46, 213, 115, 0.2);
+            color: #2ed573;
+        }
+
+        .status.inactive {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .status.pending {
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffa502;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                order: 2;
+            }
+
+            .main-content {
+                order: 1;
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Index/Landing Page -->
+    <div class="index-page" id="indexPage">
+        <div class="hero-section">
+            <div class="floating-elements">
+                <div class="floating-element"></div>
+                <div class="floating-element"></div>
+                <div class="floating-element"></div>
+            </div>
+            
+            <div class="hero-content">
+                <h1 class="hero-title">🏋️ FitZone</h1>
+                <h2 class="hero-subtitle">Gym Management System</h2>
+                <p class="hero-description">
+                    Streamline your gym operations with our comprehensive management system. 
+                    Handle memberships, schedules, payments, and more with ease and efficiency.
+                </p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="enterApp()">Enter System</button>
+                <!--    <button class="btn-secondary" onclick="showDemo()">View Demo</button>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="features-preview">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">👥</span>
+                    <h3 class="feature-title">Member Management</h3>
+                    <p class="feature-description">
+                        Comprehensive member profiles, membership tracking, automated renewals, 
+                        and seamless check-in/check-out system.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🏃</span>
+                    <h3 class="feature-title">Trainer Management</h3>
+                    <p class="feature-description">
+                        Manage trainer schedules, certifications, client assignments, 
+                        and performance tracking all in one place.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">Class Scheduling</h3>
+                    <p class="feature-description">
+                        Easy class scheduling, capacity management, automated reminders, 
+                        and waitlist functionality.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💳</span>
+                    <h3 class="feature-title">Payment Processing</h3>
+                    <p class="feature-description">
+                        Automated billing, multiple payment methods, revenue tracking, 
+                        and financial reporting.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <p class="feature-description">
+                        Real-time insights, member analytics, revenue reports, 
+                        and business intelligence tools.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔐</span>
+                    <h3 class="feature-title">Secure & Reliable</h3>
+                    <p class="feature-description">
+                        Bank-level security, data encryption, regular backups, 
+                        and 99.9% uptime guarantee.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
+        <div class="container">
+            <nav class="sidebar">
+                <div class="logo">
+                    <h1>🏋️ FitZone</h1>
+                    <p>Gym Management System</p>
+                </div>
+                <button class="back-btn" onclick="backToIndex()">← Back to Home</button>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-page="dashboard">📊 Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="members">👥 Members</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="trainers">🏃 Trainers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="classes">🎯 Classes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="payments">💳 Payments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="features">⚙️ Features</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- Dashboard Page -->
+                <div class="page active" id="dashboard">
+                    <div class="page-header">
+                        <h2>Dashboard</h2>
+                        <p>Welcome to FitZone Gym Management System</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">245</div>
+                            <div class="stat-label">Total Members</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Active Trainers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Classes Today</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$12,450</div>
+                            <div class="stat-label">Monthly Revenue</div>
+                        </div>
+                    </div>
+
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>Recent Activities</h3>
+                            <ul>
+                                <li>New member Prince Alan joined today</li>
+                                <li>Yoga class scheduled for 6 PM</li>
+                                <li>Equipment maintenance completed</li>
+                                <li>Monthly membership renewals due</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h3>Quick Actions</h3>
+                            <p>Manage your gym efficiently with these quick actions</p>
+                            <button class="btn">Add New Member</button>
+                            <button class="btn">Schedule Class</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Members Page -->
+                <div class="page" id="members">
+                    <div class="page-header">
+                        <h2>Members Management</h2>
+                        <p>Manage all gym members and their memberships</p>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Membership</th>
+                                    <th>Status</th>
+                                    <th>Join Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#001</td>
+                                    <td>Prince Alan</td>
+                                    <td>Prince@email.com</td>
+                                    <td>Premium</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>2025-01-15</td>
+                                    <td><button class="btn">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#002</td>
+                                    <td>Miguet Rudakubana</td>
+                                    <td>Miguet@email.com</td>
+                                    <td>Basic</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>2025-02-20</td>
+                                    <td><button class="btn">Edit</button></td>
+                                </tr>
+                                <tr>
+                                    <td>#003</td>
+                                    <td>Bruce Niyibizi</td>
+                                    <td>Bruce@email.com</td>
+                                    <td>Premium</td>
+                                    <td><span class="status inactive">Expired</span></td>
+                                    <td>2025-12-10</td>
+                                    <td><button class="btn">Renew</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-card" style="margin-top: 2rem;">
+                        <h3>Add New Member</h3>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="Enter email address">
+                        </div>
+                        <div class="form-group">
+                            <label>Membership Type</label>
+                            <select>
+                                <option>Basic</option>
+                                <option>Premium</option>
+                                <option>VIP</option>
+                            </select>
+                        </div>
+                        <button class="btn">Add Member</button>
+                    </div>
+                </div>
+
+                <!-- Trainers Page -->
+                <div class="page" id="trainers">
+                    <div class="page-header">
+                        <h2>Trainers Management</h2>
+                        <p>Manage all gym trainers and their schedules</p>
+                    </div>
+
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>🏋️ Chris Paul</h3>
+                            <p><strong>Specialization:</strong> Weight Training, Powerlifting</p>
+                            <p><strong>Experience:</strong> 5 years</p>
+                            <p><strong>Rating:</strong> ⭐⭐⭐⭐⭐ (4.9/5)</p>
+                            <p><strong>Available:</strong> Mon-Fri 6AM-2PM</p>
+                            <button class="btn">View Schedule</button>
+                        </div>
+                        <div class="content-card">
+                            <h3>🧘 Teta Clenie</h3>
+                            <p><strong>Specialization:</strong> Yoga, Pilates, Flexibility</p>
+                            <p><strong>Experience:</strong> 7 years</p>
+                            <p><strong>Rating:</strong> ⭐⭐⭐⭐⭐ (4.8/5)</p>
+                            <p><strong>Available:</strong> Tue-Sat 10AM-6PM</p>
+                            <button class="btn">View Schedule</button>
+                        </div>
+                        <div class="content-card">
+                            <h3>🏃 David Musoni</h3>
+                            <p><strong>Specialization:</strong> Cardio, HIIT, CrossFit</p>
+                            <p><strong>Experience:</strong> 4 years</p>
+                            <p><strong>Rating:</strong> ⭐⭐⭐⭐⭐ (4.7/5)</p>
+                            <p><strong>Available:</strong> Mon-Wed-Fri 5PM-9PM</p>
+                            <button class="btn">View Schedule</button>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top: 2rem;">
+                        <h3>Add New Trainer</h3>
+                        <div class="form-group">
+                            <label>Trainer Name</label>
+                            <input type="text" placeholder="Enter trainer name">
+                        </div>
+                        <div class="form-group">
+                            <label>Specialization</label>
+                            <input type="text" placeholder="Enter specialization">
+                        </div>
+                        <div class="form-group">
+                            <label>Experience (years)</label>
+                            <input type="number" placeholder="Years of experience">
+                        </div>
+                        <button class="btn">Add Trainer</button>
+                    </div>
+                </div>
+
+                <!-- Classes Page -->
+                <div class="page" id="classes">
+                    <div class="page-header">
+                        <h2>Classes Management</h2>
+                        <p>Schedule and manage all gym classes</p>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Class Name</th>
+                                    <th>Trainer</th>
+                                    <th>Time</th>
+                                    <th>Duration</th>
+                                    <th>Capacity</th>
+                                    <th>Enrolled</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Morning Yoga</td>
+                                    <td>Teta Clenie</td>
+                                    <td>7:00 AM</td>
+                                    <td>60 min</td>
+                                    <td>20</td>
+                                    <td>15</td>
+                                    <td><span class="status active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>HIIT Training</td>
+                                    <td>David Musoni</td>
+                                    <td>6:00 PM</td>
+                                    <td>45 min</td>
+                                    <td>15</td>
+                                    <td>12</td>
+                                    <td><span class="status active">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Strength Training</td>
+                                    <td>Chris Paul</td>
+                                    <td>8:00 AM</td>
+                                    <td>90 min</td>
+                                    <td>10</td>
+                                    <td>8</td>
+                                    <td><span class="status active">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-grid" style="margin-top: 2rem;">
+                        <div class="content-card">
+                            <h3>Schedule New Class</h3>
+                            <div class="form-group">
+                                <label>Class Name</label>
+                                <input type="text" placeholder="Enter class name">
+                            </div>
+                            <div class="form-group">
+                                <label>Trainer</label>
+                                <select>
+                                    <option>Chris Paul</option>
+                                    <option>Teta Clenie</option>
+                                    <option>David Musoni</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Time</label>
+                                <input type="time">
+                            </div>
+                            <button class="btn">Schedule Class</button>
+                        </div>
+                        <div class="content-card">
+                            <h3>Popular Classes</h3>
+                            <ul>
+                                <li>Morning Yoga - 95% attendance</li>
+                                <li>HIIT Training - 88% attendance</li>
+                                <li>Strength Training - 92% attendance</li>
+                                <li>Evening Pilates - 85% attendance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payments Page -->
+                <div class="page" id="payments">
+                    <div class="page-header">
+                        <h2>Payments Management</h2>
+                        <p>Track all membership payments and billing</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">$45,230</div>
+                            <div class="stat-label">Total Revenue</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$12,450</div>
+                            <div class="stat-label">This Month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">23</div>
+                            <div class="stat-label">Pending Payments</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$2,340</div>
+                            <div class="stat-label">Overdue</div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Prince Alan</td>
+                                    <td>Premium Monthly</td>
+                                    <td>$99</td>
+                                    <td>2025-03-15</td>
+                                    <td><span class="status active">Paid</span></td>
+                                    <td><button class="btn">Receipt</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Miguet Rudakubana</td>
+                                    <td>Basic Monthly</td>
+                                    <td>$49</td>
+                                    <td>2025-03-20</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                    <td><button class="btn">Send Reminder</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Bruce Niyibizi</td>
+                                    <td>Premium Monthly</td>
+                                    <td>$99</td>
+                                    <td>2025-03-10</td>
+                                    <td><span class="status inactive">Overdue</span></td>
+                                    <td><button class="btn">Contact</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-grid" style="margin-top: 2rem;">
+                        <div class="content-card">
+                            <h3>Payment Methods</h3>
+                            <ul>
+                                <li>💳 Credit Card - 65%</li>
+                                <li>💰 Cash - 25%</li>
+                                <li>🏦 Bank Transfer - 8%</li>
+                                <li>📱 Digital Wallet - 2%</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h3>Revenue Trends</h3>
+                            <p>Monthly revenue has increased by 15% compared to last month.</p>
+                            <p>Premium memberships account for 70% of total revenue.</p>
+                            <button class="btn">View Detailed Report</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Page -->
+                <div class="page" id="features">
+                    <div class="page-header">
+                        <h2>System Features</h2>
+                        <p>Explore all the powerful features of FitZone Gym Management System</p>
+                    </div>
+
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>🎯 Member Management</h3>
+                            <ul>
+                                <li>Complete member profiles with photos</li>
+                                <li>Membership tracking and renewals</li>
+                                <li>Automated billing and payments</li>
+                                <li>Member check-in/check-out system</li>
+                                <li>Member communication tools</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h3>👨‍🏫 Trainer Management</h3>
+                            <ul>
+                                <li>Trainer profiles and certifications</li>
+                                <li>Schedule management system</li>
+                                <li>Performance tracking</li>
+                                <li>Client assignment and progress</li>
+                                <li>Payroll management</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h3>📅 Class Scheduling</h3>
+                            <ul>
+                                <li>Easy drag-and-drop scheduling</li>
+                                <li>Automated class reminders</li>
+                                <li>Waitlist management</li>
+                                <li>Class capacity tracking</li>
+                                <li>Recurring class setup</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h3>💰 Financial Management</h3>
+                            <ul>
+                                <li>Automated billing and invoicing</li>
+                                <li>Multiple payment methods</li>
+                                <li>Revenue tracking and reporting</li>
+                                <li>Expense management</li>
+                                <li>Financial analytics</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h3>📊 Analytics & Reports</h3>
+                            <ul>
+                                <li>Real-time dashboard metrics</li>
+                                <li>Member activity reports</li>
+                                <li>Revenue and profitability analysis</li>
+                                <li>Class attendance tracking</li>
+                                <li>Custom report generation</li>
+                            </ul>
+                        </div>
+                        <div class="content-card">
+                            <h3>🔐 Security Features</h3>
+                            <ul>
+                                <li>Role-based access control</li>
+                                <li>Data backup and recovery</li>
+                                <li>Secure payment processing</li>
+                                <li>Member data encryption</li>
+                                <li>Activity logging and auditing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-card" style="margin-top: 2rem;">
+                        <h3>🚀 Coming Soon</h3>
+                        <ul>
+                            <li>Mobile app for members</li>
+                            <li>Wearable device integration</li>
+                            <li>AI-powered workout recommendations</li>
+                            <li>Virtual personal training</li>
+                            <li>Nutrition tracking integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Index page functions
+        function enterApp() {
+            document.getElementById('indexPage').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+        }
+
+        function backToIndex() {
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('indexPage').style.display = 'block';
+        }
+
+        function showDemo() {
+            alert('Demo functionality would show a guided tour of the system features!');
+        }
+
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and pages
+                navLinks.forEach(l => l.classList.remove('active'));
+                pages.forEach(p => p.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding page
+                const pageId = link.getAttribute('data-page');
+                const page = document.getElementById(pageId);
+                if (page) {
+                    page.classList.add('active');
+                }
+            });
+        });
+
+        // Add some interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stats on dashboard load
+            const statValues = document.querySelectorAll('.stat-value');
+            
+            function animateStats() {
+                statValues.forEach(stat => {
+                    const value = stat.textContent;
+                    const numValue = parseInt(value.replace(/[^0-9]/g, ''));
+                    if (numValue && !isNaN(numValue)) {
+                        let current = 0;
+                        const increment = numValue / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= numValue) {
+                                stat.textContent = value;
+                                clearInterval(timer);
+                            } else {
+                                stat.textContent = value.replace(numValue, Math.floor(current));
+                            }
+                        }, 20);
+                    }
+                });
+            }
+
+            // Trigger animation when dashboard is shown
+            const dashboardLink = document.querySelector('[data-page="dashboard"]');
+            if (dashboardLink) {
+                dashboardLink.addEventListener('click', () => {
+                    setTimeout(animateStats, 300);
+                });
+            }
+
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.content-card, .stat-card, .feature-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add form validation
+            const forms = document.querySelectorAll('input, select, textarea');
+            forms.forEach(field => {
+                field.addEventListener('focus', function() {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+                    this.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.2)';
+                });
+                
+                field.addEventListener('blur', function() {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add button click effects
+            const buttons = document.querySelectorAll('.btn, .btn-primary, .btn-secondary');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.position = 'absolute';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
